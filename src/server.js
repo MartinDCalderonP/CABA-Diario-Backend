@@ -1,4 +1,4 @@
-process.env.BASE_URL = process.env.BASE_URL || 'http://localhost:8888/';
+process.env.BASE_URL = 'http://localhost:8888/';
 process.env.IMAGES_URL = process.env.BASE_URL + 'images/';
 process.env.NEWSIMAGES_URL = process.env.IMAGES_URL + 'newsImages/';
 
