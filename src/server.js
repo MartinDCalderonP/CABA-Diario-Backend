@@ -49,10 +49,3 @@ app.use('/autores', autoresRoutes);
 app.listen(process.env.PORT || 8888, ()=>{
     console.log('Escuchando...')
 });
-
-if (process.env.NODE_ENV === "production"){
-    app.use(express.static("build"));
-    app.get("*", (req, res) => {
-      res.sendFile(path.resolve(__dirname,  "build", "index.html"));
-    });
-};
