@@ -31,15 +31,13 @@ app.use(cors({
 }));
 
 app.use(session({
-    store: new FileStore,
+    store: new FileStore({logFn: function(){}}),
     secret: '123456789',
     resave: false,
     saveUninitialized: true,
     name: 'CABA Diario',
     })
 );
-
-new filestore({logFn: function(){}})
 
 app.use('/auth', sessionRoutes);
 app.use('/register', registerRoutes);
