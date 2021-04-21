@@ -1,4 +1,4 @@
-process.env.BASE_URL = 'http://localhost:8888/';
+process.env.BASE_URL = 'http://localhost:8888/index.html';
 process.env.IMAGES_URL = process.env.BASE_URL + 'images/';
 process.env.NEWSIMAGES_URL = process.env.IMAGES_URL + 'newsImages/';
 
@@ -45,17 +45,6 @@ app.use('/notas', notasRoutes);
 app.use('/seguidos', seguidosRoutes);
 app.use('/secciones', seccionesRoutes);
 app.use('/autores', autoresRoutes);
-
-if (process.env.NODE_ENV === 'production') {
-    // Exprees will serve up production assets
-    app.use(express.static('client/build'));
-
-    // Express serve up index.html file if it doesn't recognize route
-    const path = require('path');
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-}
 
 app.listen(process.env.PORT || 8888, ()=>{
     console.log('Escuchando...')
