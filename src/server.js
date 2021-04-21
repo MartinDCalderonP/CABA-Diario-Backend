@@ -46,6 +46,8 @@ app.use('/seguidos', seguidosRoutes);
 app.use('/secciones', seccionesRoutes);
 app.use('/autores', autoresRoutes);
 
+app.get("/");
+
 app.listen(process.env.PORT || 8888, ()=>{
     console.log('Escuchando...')
 });
