@@ -39,6 +39,8 @@ app.use(session({
     })
 );
 
+new filestore({logFn: function(){}})
+
 app.use('/auth', sessionRoutes);
 app.use('/register', registerRoutes);
 app.use('/notas', notasRoutes);

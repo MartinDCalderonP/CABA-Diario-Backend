@@ -310,7 +310,7 @@ router.post('/', (req, res)=>{
 
         imagenFileName=Date.now() + path.extname(imagenFile.name);
 
-        imagenFile.mv('/public/images/newsImages/' + imagenFileName, function(err){
+        imagenFile.mv('./public/images/newsImages/' + imagenFileName, function(err){
             if (err){
                 console.log(err);
             }
@@ -418,7 +418,7 @@ router.put('/:id', (req, res)=>{
             if (err) {
                 console.log('Error.');
             } else {
-                fs.unlink('/public/images/newsImages/' + path.basename(result[0].Nota_Imagen), err=>{
+                fs.unlink('./public/images/newsImages/' + path.basename(result[0].Nota_Imagen), err=>{
                     if (err) throw err;
                 });
             }
@@ -428,7 +428,7 @@ router.put('/:id', (req, res)=>{
 
         imagenFileName=Date.now() + path.extname(imagenFile.name);
 
-        imagenFile.mv('/public/images/newsImages/' + imagenFileName, function(err){
+        imagenFile.mv('./public/images/newsImages/' + imagenFileName, function(err){
             if (err){
                 console.log(err);
             }
@@ -511,7 +511,7 @@ router.delete('/:id', (req, res)=>{
                         message: 'Error al encontrar la imagen de la nota.'
                     })
                 } else {
-                    fs.unlink('/public/images/newsImages/' + path.basename(result[0].Nota_Imagen), err=>{
+                    fs.unlink('./public/images/newsImages/' + path.basename(result[0].Nota_Imagen), err=>{
                         if (err) {
                             res.json({
                                 status: 'Error.',
