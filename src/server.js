@@ -26,15 +26,15 @@ app.use('*/images', express.static('public/images'));
 
 app.use(cors({
     credentials: true,
-    origin: 'https://martindanielcp.github.io/',
-    allowedHeaders: ['Content-Type'],
+    origin: 'https://martindanielcp.github.io',
+    allowedHeaders: ['Access-Control-Allow-Origin'],
 }));
 
-app.use(function(req, res, next){
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// app.use(function(req, res, next){
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
 app.use(session({
     store: new FileStore({logFn: function(){}}),
