@@ -26,7 +26,7 @@ app.use('*/images', express.static('public/images'));
 
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: 'https://caba-diario-frontend.vercel.app/',
     allowedHeaders: ['Content-Type'],
 }));
 
