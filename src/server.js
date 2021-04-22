@@ -26,7 +26,7 @@ app.use('*/images', express.static('public/images'));
 
 app.use(cors({
     credentials: true,
-    origin: 'https://martindanielcp.github.io/CABA-Diario-Frontend/',
+    origin: 'https://martindanielcp.github.io/',
     allowedHeaders: ['Content-Type'],
 }));
 
