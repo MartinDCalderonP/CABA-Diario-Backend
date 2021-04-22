@@ -27,7 +27,7 @@ app.use('*/images', express.static('public/images'));
 app.use(cors({
     credentials: true,
     origin: 'https://martindanielcp.github.io',
-    allowedHeaders: ['Access-Control-Allow-Origin'],
+    allowedHeaders: ['Access-Control-Allow-Origin', 'Content-Type'],
 }));
 
 // app.use(function(req, res, next){
