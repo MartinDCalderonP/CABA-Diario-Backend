@@ -26,7 +26,7 @@ app.use('*/images', express.static('public/images'));
 
 app.use(cors({
     credentials: true,
-    origin: ['https://martindanielcp.github.io', 'http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://caba-diario.netlify.app'],
     allowedHeaders: ['Access-Control-Allow-Origin', 'Content-Type'],
 }));
 
