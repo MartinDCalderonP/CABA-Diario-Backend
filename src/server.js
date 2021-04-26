@@ -1,6 +1,7 @@
-process.env.BASE_URL = 'http://localhost:8888/';
-process.env.IMAGES_URL = process.env.BASE_URL + 'images/';
-process.env.NEWSIMAGES_URL = process.env.IMAGES_URL + 'newsImages/';
+// Para subir imágenes localmente:
+// process.env.BASE_URL = 'http://localhost:8888/';
+// process.env.IMAGES_URL = process.env.BASE_URL + 'images/';
+// process.env.NEWSIMAGES_URL = process.env.IMAGES_URL + 'newsImages/';
 
 const express = require('express');
 const cors = require('cors');

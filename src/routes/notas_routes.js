@@ -4,7 +4,6 @@ const router=express.Router();
 const path = require('path');
 const fs = require('fs');
 const AWS = require('aws-sdk');
-const path = require('path');
 
 router.get('/principales', (req, res)=>{
     let sqlSelectPrincipales = `
