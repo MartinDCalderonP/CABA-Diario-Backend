@@ -331,7 +331,7 @@ router.post('/', (req, res)=>{
         let params = {
             Bucket: 'caba-diario-backend',
             Body: fs.createReadStream(imagenFile),
-            Key: 'public/images/newsImages/' + Date.now() + path.extname(imagenFile),
+            Key: 'public/images/newsImages/' + Date.now() + path.extname(imagenFile.name),
             ACL: 'public-read'
         };
 
