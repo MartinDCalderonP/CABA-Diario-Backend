@@ -3,6 +3,8 @@ const connection = require('../connection');
 const router=express.Router();
 const path = require('path');
 const fs = require('fs');
+const AWS = require('aws-sdk');
+const path = require('path');
 
 router.get('/principales', (req, res)=>{
     let sqlSelectPrincipales = `
@@ -303,16 +305,44 @@ router.get('/busqueda/:termino', (req, res)=>{
 })
 
 router.post('/', (req, res)=>{
-    let imagenFileName = '';
+    // Para subir imágenes localmente:
+    // let imagenFileName = '';
+
+    // if(req.files){
+    //     let imagenFile = req.files.Imagen;
+
+    //     imagenFileName = Date.now() + path.extname(imagenFile.name);
+
+    //     imagenFile.mv('./public/images/newsImages/' + imagenFileName, function(err){
+    //         if (err){
+    //             console.log(err);
+    //         }
+    //     });
 
     if(req.files){
+        AWS.config.update({
+            accessKeyId: "AKIAZ6PERREN34TXSTLR",
+            secretAccessKey: "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",
+            region: 'sa-east-1' 
+        });
+        
+        let s3 = new AWS.S3();
         let imagenFile = req.files.Imagen;
 
-        imagenFileName=Date.now() + path.extname(imagenFile.name);
+        let params = {
+            Bucket: 'caba-diario-backend',
+            Body: fs.createReadStream(imagenFile),
+            Key: 'public/images/newsImages/' + Date.now() + path.extname(imagenFile),
+            ACL: 'public-read'
+        };
 
-        imagenFile.mv('./public/images/newsImages/' + imagenFileName, function(err){
-            if (err){
-                console.log(err);
+        s3.upload(params, function(err, data){
+            if(err){
+                console.log("Error:", err);
+            }
+            
+            if(data){
+                console.log("Archivo subido en:", data.Location);
             }
         });
     } else {
@@ -341,7 +371,7 @@ router.post('/', (req, res)=>{
     let valuesInsertNotas = [
         req.body.Título,
         req.body.Sección_ID,
-        process.env.NEWSIMAGES_URL + imagenFileName,
+        data.Location,
         req.body.Pie_de_Imagen,
         req.body.Crédito_de_Imagen,
         req.body.Texto
