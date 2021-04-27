@@ -4,6 +4,7 @@ const router=express.Router();
 const path = require('path');
 const fs = require('fs');
 const AWS = require('aws-sdk');
+const multer = require('multer');
 
 router.get('/principales', (req, res)=>{
     let sqlSelectPrincipales = `
@@ -331,7 +332,7 @@ router.post('/', (req, res)=>{
         let params = {
             Bucket: 'caba-diario-backend',
             Body: fs.createReadStream(imagenFile),
-            Key: 'public/images/newsImages/' + Date.now() + path.extname(imagenFile.name),
+            Key: 'public/images/newsImages/' + Date.now() + path.extname(imagenFile),
             ACL: 'public-read'
         };
 
