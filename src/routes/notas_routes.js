@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const AWS = require('aws-sdk');
 const multer = require('multer');
+const multerS3 = require('multer-s3')
 
 AWS.config.update({
     accessKeyId: "AKIAZ6PERREN34TXSTLR",
