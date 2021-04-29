@@ -325,9 +325,9 @@ router.get('/busqueda/:termino', (req, res)=>{
     })
 })
 
-router.post('/', upload.array('image', 1), (req, res)=>{
+router.post('/', upload.array('imagen', 1), (req, res)=>{
     if(req.files){
-        console.log("Archivo subido.");
+        console.log("Archivo subido en:", location);
     }else{
         console.log('Sin archivo.');
     }
@@ -354,7 +354,7 @@ router.post('/', upload.array('image', 1), (req, res)=>{
     let valuesInsertNotas = [
         req.body.Título,
         req.body.Sección_ID,
-        req.files.Imagen,
+        location,
         req.body.Pie_de_Imagen,
         req.body.Crédito_de_Imagen,
         req.body.Texto
