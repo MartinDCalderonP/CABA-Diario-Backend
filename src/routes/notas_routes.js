@@ -308,8 +308,10 @@ router.get('/busqueda/:termino', (req, res)=>{
 
 router.post('/', upload.single('Imagen'), async (req, res)=>{
     if(req.files){
-        let file = req.file
-        let result = await uploadFile(file)
+        const file = req.file
+        console.log(file)
+        const result = await uploadFile(file)
+        console.log(result)
     }else{
         console.log('Sin archivo.');
     }
