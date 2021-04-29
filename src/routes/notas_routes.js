@@ -305,20 +305,6 @@ router.get('/busqueda/:termino', (req, res)=>{
 })
 
 router.post('/', (req, res)=>{
-    // Para subir imágenes localmente:
-    // let imagenFileName = '';
-
-    // if(req.files){
-    //     let imagenFile = req.files.Imagen;
-
-    //     imagenFileName = Date.now() + path.extname(imagenFile.name);
-
-    //     imagenFile.mv('./public/images/newsImages/' + imagenFileName, function(err){
-    //         if (err){
-    //             console.log(err);
-    //         }
-    //     });
-
     if(req.files){
         AWS.config.update({
             accessKeyId: "AKIAZ6PERREN34TXSTLR",
