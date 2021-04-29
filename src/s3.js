@@ -19,7 +19,7 @@ function uploadFile(file){
     const uploadParams = {
         Bucket: bucketName,
         Body: fileStream,
-        Key: 'public/images/newsImages/' + Date.now() + path.extname(file),
+        Key: 'public/images/newsImages/' + Date.now(),
         ACL: 'public-read'
     }
   
