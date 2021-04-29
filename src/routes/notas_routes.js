@@ -7,26 +7,6 @@ const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3')
 
-AWS.config.update({
-    accessKeyId: "AKIAZ6PERREN34TXSTLR",
-    secretAccessKey: "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",
-    region: 'sa-east-1' 
-});
-
-let s3 = new AWS.S3();
-
-let upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'caba-diario-backend',
-        acl: 'public-read',
-        key: function (req, file, cb) {
-            console.log(file);
-            cb(null, 'public/images/newsImages/' + Date.now() + path.extname(file));
-        }
-    })
-});
-
 router.get('/principales', (req, res)=>{
     let sqlSelectPrincipales = `
         SELECT *
@@ -325,9 +305,28 @@ router.get('/busqueda/:termino', (req, res)=>{
     })
 })
 
-router.post('/', upload.array('imagen', 1), (req, res)=>{
+AWS.config.update({
+    accessKeyId: "AKIAZ6PERREN34TXSTLR",
+    secretAccessKey: "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",
+    region: 'sa-east-1' 
+});
+
+let s3 = new AWS.S3();
+
+let upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'caba-diario-backend',
+        acl: 'public-read',
+        key: function (req, file, cb) {
+            cb(null, 'public/images/newsImages/' + Date.now() + path.extname(file));
+        }
+    })
+});
+
+router.post('/', upload.array('magen'), (req, res)=>{
     if(req.files){
-        console.log("Archivo subido en:", location);
+        console.log("Archivo subido.");
     }else{
         console.log('Sin archivo.');
     }
@@ -354,7 +353,7 @@ router.post('/', upload.array('imagen', 1), (req, res)=>{
     let valuesInsertNotas = [
         req.body.Título,
         req.body.Sección_ID,
-        location,
+        req.files.Imagen,
         req.body.Pie_de_Imagen,
         req.body.Crédito_de_Imagen,
         req.body.Texto
