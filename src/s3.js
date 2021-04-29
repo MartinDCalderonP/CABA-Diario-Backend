@@ -7,20 +7,22 @@ const region = process.env.AWS_BUCKET_REGION
 const accessKeyId = process.env.AWS_ACCESS_KEY
 const secretAccessKey = process.env.AWS_SECRET_KEY
 
-let s3 = new S3({
+const s3 = new S3({
   region,
   accessKeyId,
   secretAccessKey
 })
 
-function uploadFile(file){  
-    let uploadParams = {
+function uploadFile(file){
+    const fileStream = fs.createReadStream(file.path)
+  
+    const uploadParams = {
         Bucket: bucketName,
-        Body: fs.createReadStream(file.path),
+        Body: fileStream,
         Key: 'public/images/newsImages/' + Date.now() + path.extname(file),
         ACL: 'public-read'
     }
-
+  
     return s3.upload(uploadParams).promise()
 }
 exports.uploadFile = uploadFile
