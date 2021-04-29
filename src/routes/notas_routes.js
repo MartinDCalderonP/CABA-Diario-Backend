@@ -307,14 +307,10 @@ router.get('/busqueda/:termino', (req, res)=>{
 })
 
 router.post('/', upload.single('Imagen'), async (req, res)=>{
-    if(req.files){
-        const file = req.file
-        console.log(file)
-        const result = await uploadFile(file)
-        console.log(result)
-    }else{
-        console.log('Sin archivo.');
-    }
+    const file = req.file
+    console.log(file)
+    const result = await uploadFile(file)
+    console.log(result)
 
     let sqlInsertNotas = `
         INSERT INTO Notas (
