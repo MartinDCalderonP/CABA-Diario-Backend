@@ -4,8 +4,9 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const AWS = require('aws-sdk');
-const multer = require('multer');
-const multerS3 = require('multer-s3')
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const { uploadFile, getFileStream } = require('./s3');
 
 router.get('/principales', (req, res)=>{
     let sqlSelectPrincipales = `
@@ -305,28 +306,10 @@ router.get('/busqueda/:termino', (req, res)=>{
     })
 })
 
-AWS.config.update({
-    accessKeyId: "AKIAZ6PERREN34TXSTLR",
-    secretAccessKey: "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",
-    region: 'sa-east-1' 
-});
-
-let s3 = new AWS.S3();
-
-let upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'caba-diario-backend',
-        acl: 'public-read',
-        key: function (req, file, cb) {
-            cb(null, 'public/images/newsImages/' + Date.now() + path.extname(file));
-        }
-    })
-});
-
-router.post('/', upload.array('magen'), (req, res)=>{
+router.post('/', upload.single('Imagen'), async (req, res)=>{
     if(req.files){
-        console.log("Archivo subido.");
+        let file = req.file
+        let result = await uploadFile(file)
     }else{
         console.log('Sin archivo.');
     }
@@ -353,7 +336,7 @@ router.post('/', upload.array('magen'), (req, res)=>{
     let valuesInsertNotas = [
         req.body.Título,
         req.body.Sección_ID,
-        req.files.Imagen,
+        result.location,
         req.body.Pie_de_Imagen,
         req.body.Crédito_de_Imagen,
         req.body.Texto
