@@ -6,7 +6,7 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/' });
-const { uploadFile, getFileStream } = require('./s3');
+const { uploadFile, getFileStream } = require('../s3');
 
 router.get('/principales', (req, res)=>{
     let sqlSelectPrincipales = `
