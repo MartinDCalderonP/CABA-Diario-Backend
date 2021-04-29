@@ -307,7 +307,7 @@ router.get('/busqueda/:termino', (req, res)=>{
 })
 
 router.post('/', upload.single('Imagen'), async (req, res)=>{
-    const file = req.file
+    const file = req.files
     console.log(file)
     const result = await uploadFile(file)
     console.log(result)
