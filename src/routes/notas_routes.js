@@ -322,7 +322,7 @@ const upload = multer({storage}).single('Imagen')
 router.post('/', upload, (req, res)=>{
     if(req.files){
         console.log(req.files)
-        let imagenFile = req.files.originalname.split(".")
+        let imagenFile = req.files.Imagen.originalname.split(".")
         const fileType = imagenFile[imagenFile.length - 1]
 
         const params = {
