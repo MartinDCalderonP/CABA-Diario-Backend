@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const AWS = require('aws-sdk');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
 
 router.get('/principales', (req, res)=>{
     let sqlSelectPrincipales = `
@@ -304,55 +305,32 @@ router.get('/busqueda/:termino', (req, res)=>{
     })
 })
 
-router.post('/', (req, res)=>{
+AWS.config.update({
+    accessKeyId: "AKIAZ6PERREN34TXSTLR",
+    secretAccessKey: "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",
+    region: 'sa-east-1'
+});
+
+let s3 = new AWS.S3();
+
+let upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'caba-diario-backend',
+        acl: 'public-read',
+        key: (req, file, cb) => {
+            console.log(file);
+            cb(null, 'public/images/newsImages/' + Date.now() + path.extname(file));
+        }
+    })
+});
+
+router.post('/', upload.array('Imagen', 1), (req, res)=>{
     if(req.files){
-        res.json({
-            message: 'WELCOME'
-        });
-    // Para subir imágenes localmente:
-    // let imagenFileName = '';
-
-    // if(req.files){
-    //     let imagenFile = req.files.Imagen;
-
-    //     imagenFileName = Date.now() + path.extname(imagenFile.name);
-
-    //     imagenFile.mv('./public/images/newsImages/' + imagenFileName, function(err){
-    //         if (err){
-    //             console.log(err);
-    //         }
-    //     });
-
-
-    // MUERTE:
-    // if(req.files){
-    //     AWS.config.update({
-    //         accessKeyId: "AKIAZ6PERREN34TXSTLR",
-    //         secretAccessKey: "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",
-    //         region: 'sa-east-1' 
-    //     });
-        
-    //     let s3 = new AWS.S3();
-    //     let imagenFile = req.files.Imagen;
-
-    //     let params = {
-    //         Bucket: 'caba-diario-backend',
-    //         Body: fs.createReadStream(imagenFile),
-    //         Key: 'public/images/newsImages/' + Date.now() + path.extname(imagenFile),
-    //         ACL: 'public-read'
-    //     };
-
-    //     s3.upload(params, function(err, data){
-    //         if(err){
-    //             console.log("Error:", err);
-    //         }
-            
-    //         if(data){
-    //             console.log("Archivo subido en:", data.Location);
-    //         }
-    //     });
+        console.log('Uploaded!');
+        res.send(req.files);
     }else{
-        console.log('Sin archivo.');
+        console.log('Sin imagen de nota.');
     }
 
     let sqlInsertNotas = `
