@@ -327,6 +327,7 @@ router.post('/', upload, (req, res)=>{
         const params = {
             Bucket: process.env.AWS_BUCKET_NAME,
             Key: 'public/images/newsImages/' + Date.now() + fileType,
+            Body: req.files.Imagen.data,
             ACL: 'public-read'
         }
 
