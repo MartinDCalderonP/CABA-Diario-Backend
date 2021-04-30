@@ -311,9 +311,9 @@ AWS.config.update({
     region: 'sa-east-1' 
 });
 
-let s3 = new AWS.S3();
+const s3 = new AWS.S3();
 
-let upload = multer({
+const upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: 'caba-diario-backend',
@@ -328,7 +328,7 @@ let upload = multer({
     })
   })
 
-router.post('/', upload.array('Imagen', 1), (req, res, next)=>{
+router.post('/', upload.array('Imagen', 1), (req, res)=>{
     res.send('Successfully uploaded ' + req.files.length + ' files!')
 });
 
