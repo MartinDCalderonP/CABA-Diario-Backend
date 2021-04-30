@@ -4,6 +4,8 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const AWS = require('aws-sdk');
+const multer = require('multer')
+const multerS3 = require('multer-s3')
 
 router.get('/principales', (req, res)=>{
     let sqlSelectPrincipales = `
@@ -312,24 +314,25 @@ router.post('/', (req, res)=>{
         });
         
         let s3 = new AWS.S3();
-        let imagenFile = req.files.Imagen;
 
-        let params = {
-            Bucket: 'caba-diario-backend',
-            Body: fs.createReadStream(imagenFile),
-            Key: 'public/images/newsImages/' + Date.now() + path.extname(imagenFile),
-            ACL: 'public-read'
-        };
-
-        s3.upload(params, function(err, data){
-            if(err){
-                console.log("Error:", err);
-            }
-            
-            if(data){
-                console.log("Archivo subido en:", data.Location);
-            }
-        });
+        let upload = multer({
+            storage: multerS3({
+                s3: s3,
+                bucket: 'caba-diario-backend',
+                acl: 'public-read',
+                metadata: function (req, file, cb) {
+                    cb(null, {fieldName: file.fieldname});
+                },
+                key: function (req, file, cb) {
+                    cb(null, Date.now().toString());
+                    // 'public/images/newsImages/' + Date.now() + path.extname(imagenFile)
+                }
+            })
+        })
+        
+        app.post('/upload', upload.array('Imagen', 3), function(req, res, next) {
+            res.send('Successfully uploaded ' + req.files.length + ' files!')
+        })
     } else {
         console.log('Sin archivo.');
     }
