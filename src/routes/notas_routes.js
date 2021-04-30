@@ -304,33 +304,40 @@ router.get('/busqueda/:termino', (req, res)=>{
     })
 })
 
-router.post('/', (req, res)=>{
+require('dotenv/config')
+
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ID,
+    secretAccessKey: process.env.AWS_SECRET
+})
+
+const storage = multer.memoryStorage({
+    destination: function(req, file, callback) {
+        callback(null, '')
+    }
+})
+
+const upload = multer({storage}).single('Imagen')
+
+router.post('/', upload, (req, res)=>{
     if(req.files){
-        AWS.config.update({
-            accessKeyId: "AKIAZ6PERREN34TXSTLR",
-            secretAccessKey: "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",
-            region: 'sa-east-1' 
-        });
-        
-        let s3 = new AWS.S3();
-        let imagenFile = req.files.Imagen;
+        let imagenFile = req.files.originalname.split(".")
+        const fileType = myFile[myFile.length - 1]
 
-        let params = {
-            Bucket: 'caba-diario-backend',
-            Body: fs.createReadStream(imagenFile),
-            Key: 'public/images/newsImages/' + Date.now() + path.extname(imagenFile),
+        const params = {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: 'public/images/newsImages/' + Date.now() + fileType,
+            Body: req.file.buffer,
             ACL: 'public-read'
-        };
+        }
 
-        s3.upload(params, function(err, data){
-            if(err){
-                console.log("Error:", err);
+        s3.upload(params, (error, data) => {
+            if(error){
+                res.status(500).send(error)
             }
-            
-            if(data){
-                console.log("Archivo subido en:", data.Location);
-            }
-        });
+
+            res.status(200).send(data)
+        })
     } else {
         console.log('Sin archivo.');
     }
