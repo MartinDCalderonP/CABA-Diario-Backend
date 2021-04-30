@@ -311,22 +311,22 @@ AWS.config.update({
     region: 'sa-east-1' 
 });
 
-var s3 = new AWS.S3();
+let s3 = new AWS.S3();
 
-var upload = multer({
+let upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: 'caba-diario-backend',
         acl: 'public-read',
         key: function (req, file, cb) {
             console.log(file);
-            cb(null, Date.now().toString())
+            cb(null, Date.now().toString());
             // 'public/images/newsImages/' + Date.now() + path.extname(imagenFile)
         }
     })
   })
 
-router.post('/', upload.array('Imagen', 1), (req, res)=>{
+router.post('/', upload.array('Imagen', 6), (req, res, next)=>{
     res.send('Successfully uploaded ' + req.files.length + ' files!')
 });
 
