@@ -328,10 +328,10 @@ let upload = multer({
     })
 })
 
-router.post('/',  (req, res)=>{
+router.post('/',  upload.array('Imagen', 3), (req, res, next)=>{
     if(req.files){        
-        console.log(req.files.Imagen);
-        upload.single('Imagen')
+        console.log(req.files);
+        res.send('Successfully uploaded ' + req.files.length + ' files!');
     }else{
         console.log('Sin archivo.');
     }
