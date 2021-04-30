@@ -327,7 +327,7 @@ let upload = multer({
 
 router.post('/', upload.single('Imagen'), (req, res)=>{
     if(req.files){
-        console.log(req.files.Imagen);
+        console.log("Hay.");
     }else{
         console.log('Sin imagen de nota.');
     }
