@@ -306,7 +306,7 @@ router.get('/busqueda/:termino', (req, res)=>{
 })
 
 AWS.config.update({
-    accessKeyId: "AWS_ACCESS_KEY_ID",
+    accessKeyId: "AKIAZ6PERREN34TXSTLR",
     secretAccessKey: "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",
     region: 'sa-east-1' 
 });
