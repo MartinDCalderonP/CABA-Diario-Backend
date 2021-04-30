@@ -325,7 +325,7 @@ let upload = multer({
     })
 });
 
-router.post('/', upload.array('Imagen', 3), (req, res)=>{
+router.post('/', upload.array('imagen', 3), (req, res)=>{
     console.log('Uploaded:', req.files);
 
     // let sqlInsertNotas = `
