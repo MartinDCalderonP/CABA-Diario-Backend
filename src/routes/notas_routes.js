@@ -305,7 +305,7 @@ router.get('/busqueda/:termino', (req, res)=>{
     })
 })
 
-router.post('/', (req, res)=>{
+router.post('/',  upload.array('Imagen', 3), (req, res, next)=>{
     if(req.files){
         AWS.config.update({
             accessKeyId: "AKIAZ6PERREN34TXSTLR",
@@ -330,9 +330,7 @@ router.post('/', (req, res)=>{
             })
         })
         
-        app.post('/upload', upload.array('Imagen', 3), function(req, res, next) {
-            res.send('Successfully uploaded ' + req.files.length + ' files!')
-        })
+        res.send('Successfully uploaded ' + req.files.length + ' files!');
     } else {
         console.log('Sin archivo.');
     }
