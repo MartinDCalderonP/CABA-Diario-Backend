@@ -320,8 +320,8 @@ const storage = multer.memoryStorage({
 const upload = multer({storage}).single('Imagen')
 
 router.post('/', upload, (req, res)=>{
-    if(req.files){
-        let imagenFile = req.files.originalname.split(".")
+    if(req.file){
+        let imagenFile = req.file.originalname.split(".")
         const fileType = myFile[myFile.length - 1]
 
         const params = {
@@ -338,7 +338,7 @@ router.post('/', upload, (req, res)=>{
 
             res.status(200).send(data)
         })
-    } else {
+    }else{
         console.log('Sin archivo.');
     }
 
@@ -376,7 +376,7 @@ router.post('/', upload, (req, res)=>{
                 status: 'Error.',
                 message: 'Error al subir la nota.'
             })
-        } else {
+        }else{
             let sqlInsertNoAu = `
                 INSERT INTO Notas_Autores (
                     NoAu_Nota_ID,
@@ -399,7 +399,7 @@ router.post('/', upload, (req, res)=>{
                         status: 'Error.',
                         message: 'Error al subir la nota.'
                     })
-                } else {
+                }else{
                     res.json({
                         status: 'Ok.',
                         message: 'Nota subida correctamente.'
@@ -440,7 +440,7 @@ router.put('/:id', (req, res)=>{
         connection.query(sqlSelectNotaImagen, (err, result, fields)=>{
             if (err) {
                 console.log('Error.');
-            } else {
+            }else{
                 fs.unlink('./public/images/newsImages/' + path.basename(result[0].Nota_Imagen), err=>{
                     if (err) throw err;
                 });
@@ -460,7 +460,7 @@ router.put('/:id', (req, res)=>{
         sqlUpdate += ', Nota_Imagen = ?';
         valuesUpdate.push(process.env.NEWSIMAGES_URL + imagenFileName);
 
-    } else {
+    }else{
         console.log('Sin archivo.');
     }
 
@@ -473,7 +473,7 @@ router.put('/:id', (req, res)=>{
                 status: 'Error.',
                 message: 'Error al editar la nota.'
             })
-        } else {
+        }else{
             res.json({
                 status: 'Ok.',
                 message: 'Nota editada correctamente.'
@@ -497,7 +497,7 @@ router.put('/contador/:id', (req, res)=>{
                 status: 'Error.',
                 message: 'Error al aumentar el contador la nota.'
             })
-        } else {
+        }else{
             res.json({
                 status: 'Ok.',
                 message: 'Contador de la nota aumentado correctamente.'
@@ -520,7 +520,7 @@ router.delete('/:id', (req, res)=>{
                 status: 'Error.',
                 message: 'Error al eliminar la relación nota_autor.'
             })
-        } else {
+        }else{
             let sqlSelectNotaImagen = `
                     SELECT Nota_Imagen
                     FROM Notas
@@ -533,7 +533,7 @@ router.delete('/:id', (req, res)=>{
                         status: 'Error.',
                         message: 'Error al encontrar la imagen de la nota.'
                     })
-                } else {
+                }else{
                     fs.unlink('./public/images/newsImages/' + path.basename(result[0].Nota_Imagen), err=>{
                         if (err) {
                             res.json({
@@ -556,7 +556,7 @@ router.delete('/:id', (req, res)=>{
                                 status: 'Error.',
                                 message: 'Error al eliminar la nota.'
                             })
-                        } else {
+                        }else{
                             
                             res.json({
                                 status: 'Ok.',
