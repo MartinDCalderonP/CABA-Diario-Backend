@@ -313,25 +313,33 @@ AWS.config.update({
 
 let s3 = new AWS.S3();
 
-let upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'caba-diario-backend',
-        acl: 'public-read',
-        metadata: function (req, file, cb) {
-            cb(null, {fieldName: file.fieldname});
-        },
-        key: function (req, file, cb) {
-            cb(null, Date.now().toString());
-            // 'public/images/newsImages/' + Date.now() + path.extname(imagenFile)
-        }
-    })
-})
+// MulterS3
+// let upload = multer({
+//     storage: multerS3({
+//         s3: s3,
+//         bucket: 'caba-diario-backend',
+//         acl: 'public-read',
+//         metadata: function (req, file, cb) {
+//             cb(null, {fieldName: file.fieldname});
+//         },
+//         key: function (req, file, cb) {
+//             cb(null, Date.now().toString());
+//             // 'public/images/newsImages/' + Date.now() + path.extname(imagenFile)
+//         }
+//     })
+// })
 
-router.post('/',  upload.array('Imagen', 3), (req, res, next)=>{
+let upload = multer().single('Imagen')
+
+router.post('/',  (req, res)=>{
     if(req.files){        
-        console.log(req.files);
-        res.send('Successfully uploaded ' + req.files.length + ' files!');
+        upload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+              // A Multer error occurred when uploading.
+            } else if (err) {
+              // An unknown error occurred when uploading.
+            }
+        })
     }else{
         console.log('Sin archivo.');
     }
