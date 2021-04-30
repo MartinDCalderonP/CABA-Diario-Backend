@@ -325,79 +325,76 @@ let upload = multer({
     })
 });
 
-router.post('/', upload.single('Imagen'), (req, res)=>{
-    if(req.files){
-        console.log("Hay.");
-    }else{
-        console.log('Sin imagen de nota.');
-    }
+router.post('/', upload.array('Imagen', 3), (req, res)=>{
+    console.log('Uploaded!');
+    res.send(req.files);
 
-    let sqlInsertNotas = `
-        INSERT INTO Notas (
-            Nota_Título,
-            Nota_Sección_ID,
-            Nota_Imagen,
-            Nota_PieDeImagen,
-            Nota_CréditoDeImagen,
-            Nota_Texto
-        )
-        VALUES (
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?
-        )
-    `;
+    // let sqlInsertNotas = `
+    //     INSERT INTO Notas (
+    //         Nota_Título,
+    //         Nota_Sección_ID,
+    //         Nota_Imagen,
+    //         Nota_PieDeImagen,
+    //         Nota_CréditoDeImagen,
+    //         Nota_Texto
+    //     )
+    //     VALUES (
+    //         ?,
+    //         ?,
+    //         ?,
+    //         ?,
+    //         ?,
+    //         ?
+    //     )
+    // `;
 
-    let valuesInsertNotas = [
-        req.body.Título,
-        req.body.Sección_ID,
-        data.Location,
-        req.body.Pie_de_Imagen,
-        req.body.Crédito_de_Imagen,
-        req.body.Texto
-    ]
+    // let valuesInsertNotas = [
+    //     req.body.Título,
+    //     req.body.Sección_ID,
+    //     data.Location,
+    //     req.body.Pie_de_Imagen,
+    //     req.body.Crédito_de_Imagen,
+    //     req.body.Texto
+    // ]
 
-    connection.query(sqlInsertNotas, valuesInsertNotas, (err, result, fields)=>{
-        if (err) {
-            res.json({
-                status: 'Error.',
-                message: 'Error al subir la nota.'
-            })
-        }else{
-            let sqlInsertNoAu = `
-                INSERT INTO Notas_Autores (
-                    NoAu_Nota_ID,
-                    NoAu_Autor_ID
-                )
-                VALUES (
-                    ?,
-                    ?
-                )
-            `;
+    // connection.query(sqlInsertNotas, valuesInsertNotas, (err, result, fields)=>{
+    //     if (err) {
+    //         res.json({
+    //             status: 'Error.',
+    //             message: 'Error al subir la nota.'
+    //         })
+    //     }else{
+    //         let sqlInsertNoAu = `
+    //             INSERT INTO Notas_Autores (
+    //                 NoAu_Nota_ID,
+    //                 NoAu_Autor_ID
+    //             )
+    //             VALUES (
+    //                 ?,
+    //                 ?
+    //             )
+    //         `;
 
-            let valuesInsertNoAu = [
-                result.insertId,
-                req.session.userID
-            ]
+    //         let valuesInsertNoAu = [
+    //             result.insertId,
+    //             req.session.userID
+    //         ]
 
-            connection.query(sqlInsertNoAu, valuesInsertNoAu, (err, result, fields)=>{
-                if (err) {
-                    res.json({
-                        status: 'Error.',
-                        message: 'Error al subir la nota.'
-                    })
-                }else{
-                    res.json({
-                        status: 'Ok.',
-                        message: 'Nota subida correctamente.'
-                    })
-                }
-            })
-        }
-    })
+    //         connection.query(sqlInsertNoAu, valuesInsertNoAu, (err, result, fields)=>{
+    //             if (err) {
+    //                 res.json({
+    //                     status: 'Error.',
+    //                     message: 'Error al subir la nota.'
+    //                 })
+    //             }else{
+    //                 res.json({
+    //                     status: 'Ok.',
+    //                     message: 'Nota subida correctamente.'
+    //                 })
+    //             }
+    //         })
+    //     }
+    // })
 });
 
 router.put('/:id', (req, res)=>{
