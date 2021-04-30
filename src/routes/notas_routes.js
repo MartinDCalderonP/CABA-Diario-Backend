@@ -325,9 +325,9 @@ let upload = multer({
     })
 });
 
-router.post('/', upload.array('Imagen', 0), (req, res)=>{
+router.post('/', upload.single('Imagen'), (req, res)=>{
     if(req.files){
-        console.log(req.files);
+        console.log(req.files.Imagen);
     }else{
         console.log('Sin imagen de nota.');
     }
