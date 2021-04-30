@@ -318,6 +318,9 @@ let upload = multer({
         s3: s3,
         bucket: 'caba-diario-backend',
         acl: 'public-read',
+        metadata: function (req, file, cb) {
+            cb(null, {fieldName: file.fieldname});
+        },
         key: function (req, file, cb) {
             console.log(file);
             cb(null, Date.now().toString());
