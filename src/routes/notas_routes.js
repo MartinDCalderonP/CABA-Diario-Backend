@@ -326,7 +326,7 @@ let upload = multer({
 });
 
 router.post('/', upload.array('Imagen', 3), (req, res)=>{
-    console.log('Uploaded:', req.files.imagen);
+    console.log('Uploaded:', req.files.Imagen);
 
     // let sqlInsertNotas = `
     //     INSERT INTO Notas (
