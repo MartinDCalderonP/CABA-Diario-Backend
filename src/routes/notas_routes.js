@@ -329,11 +329,7 @@ let upload = multer({
 })
 
 router.post('/',  upload.single('Imagen'), (req, res)=>{
-    if(req.files){        
-        res.send('Successfully uploaded ' + req.files.length + ' files!');
-    }else{
-        console.log('Sin archivo.');
-    }
+    res.send('Successfully uploaded ' + req.file);
 });
 
 //     let sqlInsertNotas = `
