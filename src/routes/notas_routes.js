@@ -306,8 +306,8 @@ router.get('/busqueda/:termino', (req, res)=>{
 })
 
 AWS.config.update({
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: 'sa-east-1'
 });
 
@@ -316,7 +316,7 @@ let s3 = new AWS.S3();
 let upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: AWS_BUCKET_NAME,
+        bucket: process.env.AWS_BUCKET_NAME,
         acl: 'public-read',
         key: function (req, file, cb) {
             console.log(file);
