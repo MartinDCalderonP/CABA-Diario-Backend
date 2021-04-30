@@ -306,9 +306,9 @@ router.get('/busqueda/:termino', (req, res)=>{
 })
 
 AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: 'sa-east-1'
+    accessKeyId: "AWS_ACCESS_KEY_ID",
+    secretAccessKey: "eV8a0XFIqyjZ/MzCzMkvwF4PgknGnlU8LYSFuB6x",
+    region: 'sa-east-1' 
 });
 
 let s3 = new AWS.S3();
@@ -316,7 +316,7 @@ let s3 = new AWS.S3();
 let upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: process.env.AWS_BUCKET_NAME,
+        bucket: 'caba-diario-backend',
         acl: 'public-read',
         key: function (req, file, cb) {
             console.log(file);
