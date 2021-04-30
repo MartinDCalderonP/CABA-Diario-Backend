@@ -357,7 +357,7 @@ router.post('/',  upload.array('Imagen', 3), (req, res, next)=>{
     let valuesInsertNotas = [
         req.body.Título,
         req.body.Sección_ID,
-        data.Location,
+        "Testing",
         req.body.Pie_de_Imagen,
         req.body.Crédito_de_Imagen,
         req.body.Texto
