@@ -319,6 +319,7 @@ var upload = multer({
         bucket: 'caba-diario-backend',
         acl: 'public-read',
         key: function (req, file, cb) {
+            console.log(file);
             cb(null, Date.now().toString())
             // 'public/images/newsImages/' + Date.now() + path.extname(imagenFile)
         }
