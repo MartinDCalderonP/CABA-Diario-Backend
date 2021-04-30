@@ -325,7 +325,7 @@ let upload = multer({
     })
 });
 
-router.post('/', upload.array('Imagen', 1), (req, res)=>{
+router.post('/', upload.array('Imagen', 1), (req, res, next)=>{
     if(req.files){
         console.log('Uploaded:', req.files);
     }else{
