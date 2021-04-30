@@ -328,7 +328,7 @@ let upload = multer({
     })
   })
 
-router.post('/', upload.array('Imagen', 1), (req, res)=>{
+router.post('/', upload.array('Imagen', 1), (req, res, next)=>{
     res.send('Successfully uploaded ' + req.files.length + ' files!')
 });
 
