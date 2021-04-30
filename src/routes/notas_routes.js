@@ -320,24 +320,25 @@ const storage = multer.memoryStorage({
 const upload = multer({storage}).single('Imagen')
 
 router.post('/', upload, (req, res)=>{
-    if(req.files){
-        let imagenFile = req.files.Imagen.name.split(".")
-        const fileType = imagenFile[imagenFile.length - 1]
+    if(req.file){
+        console.log(req.file)
+        // let imagenFile = req.file.originalname.split(".")
+        // const fileType = imagenFile[imagenFile.length - 1]
 
-        const params = {
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: 'public/images/newsImages/' + Date.now() + fileType,
-            Body: req.files.Imagen.data,
-            ACL: 'public-read'
-        }
+        // const params = {
+        //     Bucket: process.env.AWS_BUCKET_NAME,
+        //     Key: 'public/images/newsImages/' + Date.now() + fileType,
+        //     Body: req.file.buffer,
+        //     ACL: 'public-read'
+        // }
 
-        s3.upload(params, (error, data) => {
-            if(error){
-                res.status(500).send(error)
-            }
+        // s3.upload(params, (error, data) => {
+        //     if(error){
+        //         res.status(500).send(error)
+        //     }
 
-            res.status(200).send(data)
-        })
+        //     res.status(200).send(data)
+        // })
     }else{
         console.log('Sin archivo.');
     }
