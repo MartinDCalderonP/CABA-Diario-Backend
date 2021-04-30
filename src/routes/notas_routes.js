@@ -306,9 +306,9 @@ router.get('/busqueda/:termino', (req, res)=>{
 })
 
 AWS.config.update({
-    accessKeyId: "AKIAZ6PERREN34TXSTLR",
-    secretAccessKey: "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",
-    region: 'sa-east-1' 
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    region: 'sa-east-1'
 });
 
 let s3 = new AWS.S3();
@@ -316,7 +316,7 @@ let s3 = new AWS.S3();
 let upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'caba-diario-backend',
+        bucket: AWS_BUCKET_NAME,
         acl: 'public-read',
         key: function (req, file, cb) {
             console.log(file);
@@ -326,9 +326,8 @@ let upload = multer({
     })
   })
 
-router.post('/', upload.single('Imagen'), (req, res, next)=>{
-    res.send('Successfully uploaded ' + req.files.Imagen)
-    console.log(req.files.Imagen)
+router.post('/', upload.array('Imagen', 1), (req, res)=>{
+    res.send('Successfully uploaded ' + req.files.length + ' files!')
 });
 
 //     let sqlInsertNotas = `
