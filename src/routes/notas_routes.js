@@ -320,9 +320,10 @@ const storage = multer.memoryStorage({
 const upload = multer({storage}).single('Imagen')
 
 router.post('/', upload, (req, res)=>{
-    if(req.file){
-        let imagenFile = req.file.originalname.split(".")
-        const fileType = myFile[myFile.length - 1]
+    if(req.files){
+        console.log(req.files)
+        let imagenFile = req.files.originalname.split(".")
+        const fileType = imagenFile[imagenFile.length - 1]
 
         const params = {
             Bucket: process.env.AWS_BUCKET_NAME,
