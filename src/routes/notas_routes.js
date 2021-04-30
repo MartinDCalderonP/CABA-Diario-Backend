@@ -311,16 +311,13 @@ AWS.config.update({
     region: 'sa-east-1' 
 });
 
-const s3 = new AWS.S3();
+var s3 = new AWS.S3();
 
-const upload = multer({
+var upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: 'caba-diario-backend',
         acl: 'public-read',
-        metadata: function (req, file, cb) {
-            cb(null, {fieldName: file.fieldname});
-        },
         key: function (req, file, cb) {
             cb(null, Date.now().toString())
             // 'public/images/newsImages/' + Date.now() + path.extname(imagenFile)
