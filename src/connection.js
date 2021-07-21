@@ -1,10 +1,10 @@
-const mysql=require('mysql');
+const mysql = require('mysql');
 
-let connection=mysql.createPool({
-        host: 'us-cdbr-east-03.cleardb.com',
-        user: 'b458e2f6897bf8',
-        password: '950bb926',
-        database: 'heroku_31a7777b0e1610b'
-})
+let connection = mysql.createPool({
+	host: process.env.MYSQL_HOST,
+	user: process.env.MYSQL_USER,
+	password: process.env.MYSQL_PASS,
+	database: process.env.MYSQL_DATABASE,
+});
 
-module.exports=connection;
+module.exports = connection;
